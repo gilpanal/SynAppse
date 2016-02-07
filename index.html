@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+	<meta charset="utf-8">
+	<meta name="description" content="">
+	<meta name="author" content="gilpanal">
+	<meta name="HandheldFriendly" content="True">
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="format-detection" content="telephone=no">
+	<meta http-equiv="cleartype" content="on">
+
+	<title>SynAppSe</title>
+	<link rel="shortcut icon" href="img/icons/synapse_icon.png">
+
+	<!-- Main Stylesheet -->
+	<link rel="stylesheet" href="components/lungo/lungo.css">
+	<link rel="stylesheet" href="components/lungo/lungo.icon.css">
+	<link rel="stylesheet" href="components/lungo/lungo.icon.brand.css">
+	<link rel="stylesheet" href="components/lungo/theme.lungo.css"> 
+	<style>
+	#fileElem {
+		/* Note: display:none on the input won't trigger the click event in WebKit.
+		Setting visibility: hidden and height/width:0 works great. */
+		visibility: hidden;
+		width: 0;
+		height: 0;
+	}
+	#fileSelect {
+		/* style the button any way you want */
+	}
+	.thumb {
+		height: 75px;
+
+		margin: 10px 5px 0 0;
+	}
+	
+	/* Colors styles */
+	 .green {
+		background-color: #4cbe83;
+		border-color: #36ad6f;
+	}
+	</style>
+
+	<!-- Webapp libraries -->
+	<script src="js/socket.io.js"></script>
+	<script src="lib/jquery-1.8.2.min.js"></script>
+
+	
+</head>
+<body class="app">
+
+	<section id="main">
+
+		<header data-title="SynapSe">			
+			
+		</header>
+
+		<footer>
+			<nav>
+				<a href="#main-article" id="footer-main" data-icon="message" data-router="article" data-title="Synapse" class="active"></a>
+				<a href="#users-article" data-icon="user" data-router="article" data-title="Users"></a> 
+				<a href="#cloud-article" data-icon="brand twitter" data-router="article" data-title="Twitter"></a>
+			</nav>
+		</footer>
+
+		<article id="main-article" class="active list indented scroll">
+			<ul>
+				<li data-image="img/dogswap.jpg">
+					<a href="#chat-section" data-router="section" data-title="Jose Manuel">
+						<strong>Yo</strong><br />Let's chat!</a>
+				</li>
+				
+			</ul>
+		</article>  
+
+
+		<article id="users-article" class="list indented scroll"> 
+
+			<script id="home-tpl" type="text/x-handlebars-template"> 
+				<form onkeypress="return event.keyCode != 13">             
+					<input class='search-key' type="text" placeholder="Search people..."/>
+					<ul class='employee-list'></ul>        
+				</form> 
+			</script>
+
+			<script id="employee-li-tpl" type="text/x-handlebars-template">
+
+				{{#.}}
+
+				<li>					
+					<img id='image'src='img/people/{{firstName}}_{{lastName}}.jpg'/> 
+					<a href="#employees/{{this.id}}">{{this.firstName}} {{this.lastName}}<br/>{{this.title}}</a>
+				</li>
+
+				{{/.}}
+
+			</script>
+
+			<script id="employee-tpl" type="text/x-handlebars-template">     		   
+				<form>	   		    	
+					<ul>		    	
+						<li>								    		
+							<img id='image'src='img/people/{{firstName}}_{{lastName}}.jpg'/> 	       	
+							<strong>{{firstName}} {{lastName}}</strong>
+							<h2>{{title}}</h2>
+						</li>
+						<li>
+							<a href="tel:{{officePhone}}">Call Office<br/>{{officePhone}}</a>
+						</li>
+						<li>
+							<a href="tel:{{cellPhone}}">Call Cell<br/>{{cellPhone}}</a>
+						</li>
+						<li>
+							<a href="sms:{{cellPhone}}">SMS<br/>{{cellPhone}}</a>
+						</li>			       
+						<li>      	
+							<a href='#' class="button">Back</a>						
+						</li>		        
+					</ul>		    
+				</form> 				   
+			</script>       
+		</article> 
+
+		<article id="cloud-article" class="list indented scroll">
+			<ul>
+				<li><div ></div> <a data-router="section" href="#blackberryrs">#Blackberry</a></li>
+				<li><div ></div> <a data-router="section" href="#androidrs">#Android</a></li>
+				<li><div ></div> <a data-router="section" href="#iphoners">#iPhone</a></li>
+			</ul>
+		</article>
+
+	</section>
+
+	<section id="chat-section">
+		<header>
+			<nav >
+				<a href="#main" data-router="section" data-icon="left" class="left"></a>					
+			</nav>
+			<input type="file" id="fileElem" multiple="" onchange="handleFiles(this.files)">
+			<button id="fileSelect" data-icon="plus" class="button accept right"></button>					
+		</header>
+		
+		<article id="message-article"  class="active list indented scroll">	
+			<form id="set-conversacion"> 
+				<div id="rooms"></div> 	
+			</form> 
+			
+				<ul id="message-list" class="message-list">	</ul>
+								
+		</article>	
+		
+		<footer>
+				<nav>					
+					<a><form><input id="message" type="text" /></form></a>					
+					<a><form><input id="sendmessage" type="button" value="SEND" class="button green"></form></a>
+				</nav>
+		</footer>
+		
+	</section>
+
+	<section id="blackberryrs">
+		<header data-title="#Blackberry">
+			<nav >
+				<a href="#main" data-router="section" data-icon="left" class="left"></a>
+				<a href="#cloud-aside" data-router="aside" data-icon="menu" class="right"></a>   
+			</nav>
+		</header>
+		<article id="blackberry-article" class="active list indented scroll">
+			<ul  class="blackberry-tweets">
+			</ul>
+		</article>
+
+	</section>
+
+	<section id="androidrs">
+		<header data-title="#Android">
+			<nav>
+				<a href="#main" data-router="section" data-icon="left" class="left"></a>
+				<a href="#cloud-aside" data-router="aside" data-icon="menu" class="right"></a>
+			</nav>
+		</header>
+		<article id="android-article" class="active list indented scroll">
+			<ul  class="android-tweets">
+			</ul>
+		</article>
+
+	</section>
+
+	<section id="iphoners">
+		<header data-title="#iPhone">
+			<nav>
+				<a href="#main" data-router="section" data-icon="left" class="left"></a>
+				<a href="#cloud-aside" data-router="aside" data-icon="menu" class="right"></a>
+			</nav>
+		</header>
+		<article id="iphone-article" class="active list indented scroll">
+			<ul class="iphone-tweets"></ul>
+		</article>
+
+	</section>
+
+	
+	<aside id="cloud-aside">
+		<header data-title="GoTo"></header>
+		<article class="active list">
+			<ul>
+				<li class="current">
+					<a href="#main" data-router="section"> <strong>Twitter HashTags</strong></a>
+				</li>
+				<li>
+					<a href="#blackberryrs" data-router="section"><strong>#Blackberry</strong></a>
+				</li>
+				<li>
+					<a href="#androidrs" data-router="section"><strong>#Android</strong></a>
+				</li>
+				<li>
+					<a href="#iphoners" data-router="section"><strong>#iPhone</strong></a>
+				</li>
+			</ul>
+		</article>
+	</aside>
+
+	<!-- Webapp libraries -->	
+	<script src="lib/handlebars.js"></script> 
+	<script src="js/storage/memory-store.js"></script>
+	<script src="js/HomeView.js"></script>
+	<script src="js/EmployeeView.js"></script> 
+	<script src="js/main.js"></script>	
+	<script src="js/cloud.js"></script>
+	
+	<!-- Lungo - Dependencies -->
+	<script src="components/quojs/quo.js"></script>
+	<script src="components/lungo/lungo.js"></script>
+	<script src="js/boton.js"></script>
+	<script src="js/room.js"></script>
+	<script src="js/events.js"></script>	
+	<!-- Lungo - Sandbox App -->
+	<script>	
+	Lungo.init({
+		name: 'SynapSeApp',    
+	});
+	</script>
+</body>
+</html>
+
+
+
