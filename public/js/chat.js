@@ -1,4 +1,4 @@
-var socket_room = io.connect('http://secure-chamber-5161.herokuapp.com/');
+var socket_room = io.connect('https://secure-chamber-5161.herokuapp.com/');
 
 var chatList = document.getElementById('message-list');
 

@@ -1,4 +1,4 @@
-var socket = io.connect('http://secret-falls-2100.herokuapp.com/');
+var socket = io.connect('https://secret-falls-2100.herokuapp.com/');
   jQuery(function ($) {
     var blackberryrsList = $('ul.blackberry-tweets');
     var androidrsList = $('ul.android-tweets');
